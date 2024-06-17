@@ -37,8 +37,11 @@ func main() {
 			mutex.Lock()
 			totalRequests++
 			totalTime += elapsed
+
+			statusCodes[resp.StatusCode]++
+
 			if err == nil {
-				statusCodes[resp.StatusCode]++
+
 				if resp.StatusCode == http.StatusOK {
 					successRequests++
 				}
@@ -75,7 +78,7 @@ func main() {
 	fmt.Println("Distribuição de outros códigos de status HTTP:")
 	for code, count := range statusCodes {
 		if code != http.StatusOK {
-			fmt.Printf("Status %d: %d\n", code, count)
+			fmt.Printf("\t\t\t\tStatus %d: %d\n", code, count)
 		}
 	}
 }
